@@ -15,7 +15,7 @@ public class ConnectionReceiver extends BroadcastReceiver {
 
         Log.d("API123",""+intent.getAction());
 
-        if(intent.getAction().equals("com.uzairjaved12.broadcastreceiver.SOME_ACTION"))
+        if(intent.getAction().equals("com.uzair.broadcastreceiver.SOME_ACTION"))
             Toast.makeText(context, "SOME_ACTION is received", Toast.LENGTH_LONG).show();
 
         else {
