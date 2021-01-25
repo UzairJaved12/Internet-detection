@@ -28,11 +28,13 @@ public class ConnectionReceiver extends BroadcastReceiver {
             if (isConnected) {
                 try {
                     Toast.makeText(context, "Network is connected", Toast.LENGTH_LONG).show();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {
                 Toast.makeText(context, "Network is changed or reconnected", Toast.LENGTH_LONG).show();
+                Intent intent1 = new Intent(new Intent(context,MainActivity.class));
             }
         }
     }
