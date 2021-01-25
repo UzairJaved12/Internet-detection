@@ -3,6 +3,7 @@ package com.afa.internetconnectivity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -27,9 +28,13 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.networkBroadcast.NoNet;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback {
     private static final String TAG = "MainActivity";
+    FragmentManager fm = null;
+    //  DefaultNoNet defaultNoNet = null;
+    NoNet mNoNet;
     IntentFilter intentFilter;
     ConnectionReceiver receiver;
     protected GoogleApiClient mGoogleApiClient;
@@ -47,7 +52,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      //Reference data in ConnectionReceiver
         receiver = new ConnectionReceiver();
         intentFilter = new IntentFilter("com.journaldev.broadcastreceiver.SOME_ACTION");
-
+        fm = getSupportFragmentManager();
+        mNoNet = new NoNet();
+        mNoNet.initNoNet(this, fm);
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -84,9 +91,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     protected void onResume() {
+        mNoNet.RegisterNoNet();
         super.onResume();
         registerReceiver(receiver, intentFilter);
-
     }
 
     @Override
@@ -151,6 +158,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void onStop() {
         super.onStop();
         mGoogleApiClient.disconnect();
+    }
+
+
+    @Override
+    protected void onPause() {
+        mNoNet.unRegisterNoNet();
+        super.onPause();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

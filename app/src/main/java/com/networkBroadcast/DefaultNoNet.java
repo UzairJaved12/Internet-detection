@@ -16,6 +16,7 @@ import androidx.fragment.app.DialogFragment;
 import com.afa.internetconnectivity.R;
 
 
+
 public class DefaultNoNet extends DialogFragment {
 
 
